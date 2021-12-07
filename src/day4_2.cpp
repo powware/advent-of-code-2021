@@ -8,6 +8,7 @@
 #include <tuple>
 #include <functional>
 #include <string>
+#include <optional>
 
 struct BingoBoard
 {
