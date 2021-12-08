@@ -21,3 +21,6 @@ add_executable(day5_2 ${PROJECT_SOURCE_DIR}/src/day5_2.cpp)
 
 add_executable(day6_1 ${PROJECT_SOURCE_DIR}/src/day6_1.cpp)
 add_executable(day6_2 ${PROJECT_SOURCE_DIR}/src/day6_2.cpp)
+
+add_executable(day7_1 ${PROJECT_SOURCE_DIR}/src/day7_1.cpp)
+add_executable(day7_2 ${PROJECT_SOURCE_DIR}/src/day7_2.cpp)
