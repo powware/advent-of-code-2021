@@ -10,18 +10,61 @@ struct Point
     int x;
     int y;
 
+    void Normalize() // works specific to this puzzle
+    {
+        if (x)
+        {
+            x /= std::abs(x);
+        }
+
+        if (y)
+        {
+            y /= std::abs(y);
+        }
+    }
+
+    auto operator+(const Point &rhs)
+    {
+        return Point(x + rhs.x, y + rhs.y);
+    }
+
+    auto operator-(const Point &rhs)
+    {
+        return Point(x - rhs.x, y - rhs.y);
+    }
+
+    auto &operator+=(const Point &rhs)
+    {
+        *this = *this + rhs;
+
+        return *this;
+    }
+
+    auto &operator-=(const Point &rhs)
+    {
+        *this = *this - rhs;
+
+        return *this;
+    }
+
     auto operator<=>(const Point &rhs) const noexcept = default;
+
+    operator bool()
+    {
+        return x || y;
+    }
 };
 
-void MarkVent(std::map<Point, int> &field, Point &start, int &p1, int p2)
+void MarkVent(std::map<Point, int> &field, Point start, Point end)
 {
     ++field[start];
 
-    int difference = p2 - p1;
-    const int step = difference > 0 ? 1 : -1;
+    auto difference = end - start;
+    auto step = difference;
+    step.Normalize();
     while (difference)
     {
-        p1 += step;
+        start += step;
 
         ++field[start];
 
@@ -40,14 +83,7 @@ int main()
         Point start, end;
         std::sscanf(line.c_str(), "%d,%d -> %d,%d", &start.x, &start.y, &end.x, &end.y);
 
-        if (start.y == end.y)
-        {
-            MarkVent(field, start, start.x, end.x);
-        }
-        else if (start.x == end.x)
-        {
-            MarkVent(field, start, start.y, end.y);
-        }
+        MarkVent(field, start, end);
     }
 
     unsigned int count = 0;
@@ -61,7 +97,7 @@ int main()
 
     std::cout << count << std::endl;
 
-    std::ofstream out("day5_1.txt");
+    std::ofstream out("day5_2.txt");
     for (int y = 0; y < 1000; y++)
     {
         for (int x = 0; x < 1000; x++)
