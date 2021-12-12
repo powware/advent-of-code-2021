@@ -46,7 +46,7 @@ void FindPaths(std::vector<Path> &paths, Path path, const Cave &cave, const Cave
     path.caves.push_back(cave);
     if (cave == end)
     {
-        paths.push_back(path);
+        paths.push_back(std::move(path));
         return;
     }
 
@@ -94,8 +94,8 @@ int main()
             to.big = std::isupper(to.name[0]);
         }
 
-        from.neighbors.push_back(std::cref(to));
-        to.neighbors.push_back(std::cref(from));
+        from.neighbors.push_back(to);
+        to.neighbors.push_back(from);
     }
 
     std::vector<Path> paths;
