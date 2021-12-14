@@ -42,3 +42,6 @@ add_executable(day_12_2 ${PROJECT_SOURCE_DIR}/src/day_12/part_2.cpp)
 
 add_executable(day_13_1 ${PROJECT_SOURCE_DIR}/src/day_13/part_1.cpp)
 add_executable(day_13_2 ${PROJECT_SOURCE_DIR}/src/day_13/part_2.cpp)
+
+add_executable(day_14_1 ${PROJECT_SOURCE_DIR}/src/day_14/part_1.cpp)
+add_executable(day_14_2 ${PROJECT_SOURCE_DIR}/src/day_14/part_2.cpp)
