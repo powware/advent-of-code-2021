@@ -37,14 +37,14 @@ struct Grid : std::vector<Type>
 
 struct Distance
 {
-    int distance;
+    std::optional<unsigned int> distance;
     bool visited;
 };
 
 struct PointDistance
 {
     Point point;
-    int distance;
+    unsigned int distance;
 
     friend constexpr auto operator<=>(const PointDistance &lhs, const PointDistance &rhs)
     {
@@ -57,7 +57,7 @@ int main()
     const auto path = std::filesystem::current_path() / "input/day_15.txt";
     std::ifstream input{path};
 
-    Grid<int8_t> original_risks;
+    Grid<uint8_t> original_risks;
     for (char risk; input.get(risk);)
     {
         if (risk != '\n')
@@ -82,7 +82,7 @@ int main()
     }
 
     Grid<Distance> distances;
-    distances.resize(risks.size(), Distance(-1, false));
+    distances.resize(risks.size(), Distance(std::nullopt, false));
     distances.CalculateSideLength();
 
     std::priority_queue<PointDistance, std::vector<PointDistance>, std::greater<PointDistance>> unvisited;
@@ -97,18 +97,16 @@ int main()
         {
             continue;
         }
-        else
-        {
-            distances[current.point].visited = true;
-            distances[current.point].distance = current.distance;
-        }
+
+        distances[current.point].visited = true;
+        distances[current.point].distance = current.distance;
 
         auto add_unvisited = [&unvisited, &distances, &risks, current_distance = current.distance](Point neighbor)
         {
             if (!distances[neighbor].visited)
             {
                 auto distance_through_current = current_distance + risks[neighbor];
-                if (distances[neighbor].distance == -1 || distance_through_current < distances[neighbor].distance)
+                if (!distances[neighbor].distance || distance_through_current < distances[neighbor].distance)
                 {
                     distances[neighbor].distance = distance_through_current;
                     unvisited.push({neighbor, distance_through_current});
@@ -134,7 +132,7 @@ int main()
         }
     }
 
-    std::cout << distances[finish].distance << std::endl;
+    std::cout << *distances[finish].distance << std::endl;
 
     return 0;
 }
