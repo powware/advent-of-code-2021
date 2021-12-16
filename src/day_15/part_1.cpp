@@ -32,7 +32,7 @@ struct Grid : std::vector<Type>
         {
             CalculateSideLength();
         }
-        return std::vector<Type>::at(point.y * (*side_length) + point.x);
+        return std::vector<Type>::operator[](point.y *(*side_length) + point.x);
     }
 };
 
