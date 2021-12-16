@@ -6,6 +6,7 @@
 #include <queue>
 #include <functional>
 #include <optional>
+#include <chrono>
 
 struct Point
 {
@@ -54,6 +55,7 @@ struct PointDistance
 
 int main()
 {
+    auto start = std::chrono::steady_clock::now();
     const auto path = std::filesystem::current_path() / "input/day_15.txt";
     std::ifstream input{path};
 
@@ -132,6 +134,9 @@ int main()
         }
     }
 
+    auto end = std::chrono::steady_clock::now();
+
+    std::cout << std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count() << "ms" << std::endl;
     std::cout << *distances[finish].distance << std::endl;
 
     return 0;
